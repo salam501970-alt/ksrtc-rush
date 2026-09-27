@@ -6,10 +6,12 @@ const scoreText = document.getElementById("score");
 const coinsText = document.getElementById("coins");
 const distanceText = document.getElementById("distance");
 const message = document.getElementById("message");
-
 const road = document.getElementById("road");
 
-let busX = 50;
+const lanes = [30, 50, 70];
+
+let currentLane = 1;
+
 let score = 0;
 let coins = 0;
 let distance = 0;
@@ -20,25 +22,34 @@ let coinY = -100;
 let playing = false;
 let speed = 5;
 
+let lastTime = 0;
+
+
+/* -------------------------
+   BUS MOVEMENT
+------------------------- */
+
 function moveBus(direction) {
 
   if (!playing) return;
 
-  busX += direction * 7;
+  currentLane += direction;
 
-  if (busX < 20) busX = 20;
-  if (busX > 80) busX = 80;
+  if (currentLane < 0) {
+    currentLane = 0;
+  }
 
-  bus.style.left = busX + "%";
+  if (currentLane > 2) {
+    currentLane = 2;
+  }
+
+  bus.style.left = lanes[currentLane] + "%";
 }
 
-document.getElementById("left").addEventListener("touchstart", () => {
-  moveBus(-1);
-});
 
-document.getElementById("right").addEventListener("touchstart", () => {
-  moveBus(1);
-});
+/* -------------------------
+   BUTTONS
+------------------------- */
 
 document.getElementById("left").addEventListener("click", () => {
   moveBus(-1);
@@ -48,39 +59,104 @@ document.getElementById("right").addEventListener("click", () => {
   moveBus(1);
 });
 
-document.addEventListener("keydown", (e) => {
 
-  if (e.key === "ArrowLeft") {
+/* -------------------------
+   KEYBOARD
+------------------------- */
+
+document.addEventListener("keydown", (event) => {
+
+  if (event.key === "ArrowLeft") {
     moveBus(-1);
   }
 
-  if (e.key === "ArrowRight") {
+  if (event.key === "ArrowRight") {
     moveBus(1);
   }
 
 });
 
+
+/* -------------------------
+   SWIPE CONTROL
+------------------------- */
+
+let touchStartX = 0;
+
+road.addEventListener("touchstart", (event) => {
+
+  touchStartX = event.touches[0].clientX;
+
+});
+
+
+road.addEventListener("touchend", (event) => {
+
+  const touchEndX = event.changedTouches[0].clientX;
+
+  const difference = touchEndX - touchStartX;
+
+  if (Math.abs(difference) < 30) {
+    return;
+  }
+
+  if (difference > 0) {
+    moveBus(1);
+  } else {
+    moveBus(-1);
+  }
+
+});
+
+
+/* -------------------------
+   RANDOM TRAFFIC
+------------------------- */
+
 function randomObstacle() {
 
-  const lanes = [30, 50, 70];
+  const lane =
+    Math.floor(Math.random() * 3);
 
-  const lane = lanes[Math.floor(Math.random() * lanes.length)];
+  obstacle.style.left =
+    lanes[lane] + "%";
 
-  obstacle.style.left = lane + "%";
+  const vehicles = [
+    "🚗",
+    "🚕",
+    "🚙",
+    "🚐",
+    "🛻"
+  ];
 
-  obstacleY = -80;
+  obstacle.textContent =
+    vehicles[
+      Math.floor(Math.random() * vehicles.length)
+    ];
+
+  obstacleY = -100;
 }
+
+
+/* -------------------------
+   RANDOM COIN
+------------------------- */
 
 function randomCoin() {
 
-  const lanes = [30, 50, 70];
+  const lane =
+    Math.floor(Math.random() * 3);
 
-  const lane = lanes[Math.floor(Math.random() * lanes.length)];
-
-  coin.style.left = lane + "%";
+  coin.style.left =
+    lanes[lane] + "%";
 
   coinY = -50;
 }
+
+
+/* -------------------------
+   COLLISION
+------------------------- */
 
 function collision(a, b) {
 
@@ -95,15 +171,37 @@ function collision(a, b) {
   );
 }
 
-function gameLoop() {
 
-  if (!playing) return;
+/* -------------------------
+   GAME LOOP
+------------------------- */
 
-  obstacleY += speed;
-  coinY += speed;
+function gameLoop(timestamp) {
 
-  obstacle.style.top = obstacleY + "px";
-  coin.style.top = coinY + "px";
+  if (!playing) {
+    return;
+  }
+
+  if (!lastTime) {
+    lastTime = timestamp;
+  }
+
+  const delta =
+    (timestamp - lastTime) / 16.67;
+
+  lastTime = timestamp;
+
+  obstacleY += speed * delta;
+  coinY += speed * delta;
+
+  obstacle.style.top =
+    obstacleY + "px";
+
+  coin.style.top =
+    coinY + "px";
+
+
+  /* CAR COLLISION */
 
   if (collision(bus, obstacle)) {
 
@@ -111,9 +209,13 @@ function gameLoop() {
     return;
   }
 
+
+  /* COIN */
+
   if (collision(bus, coin)) {
 
     coins++;
+
     score += 50;
 
     coinsText.textContent = coins;
@@ -122,23 +224,45 @@ function gameLoop() {
     randomCoin();
   }
 
+
+  /* OBSTACLE PASSED */
+
   if (obstacleY > road.clientHeight) {
 
     score += 10;
+
     distance += 5;
 
     scoreText.textContent = score;
-    distanceText.textContent = distance;
+
+    distanceText.textContent =
+      distance;
+
+    /* Increase difficulty */
+
+    if (speed < 12) {
+      speed += 0.08;
+    }
 
     randomObstacle();
   }
 
+
+  /* COIN PASSED */
+
   if (coinY > road.clientHeight) {
+
     randomCoin();
   }
 
+
   requestAnimationFrame(gameLoop);
 }
+
+
+/* -------------------------
+   START GAME
+------------------------- */
 
 function startGame() {
 
@@ -150,17 +274,30 @@ function startGame() {
 
   speed = 5;
 
+  currentLane = 1;
+
+  lastTime = 0;
+
+  bus.style.left =
+    lanes[currentLane] + "%";
+
   scoreText.textContent = "0";
   coinsText.textContent = "0";
   distanceText.textContent = "0";
 
-  message.textContent = "GO! 🚌";
+  message.textContent =
+    "GO! 🚌";
 
   randomObstacle();
   randomCoin();
 
-  gameLoop();
+  requestAnimationFrame(gameLoop);
 }
+
+
+/* -------------------------
+   GAME OVER
+------------------------- */
 
 function gameOver() {
 
@@ -169,11 +306,15 @@ function gameOver() {
   message.textContent =
     "💥 Accident! Score: " + score;
 
-  obstacleY = -100;
-  coinY = -100;
-
   obstacle.style.top = "-100px";
   coin.style.top = "-100px";
 }
 
-document.getElementById("start").addEventListener("click", startGame);
+
+/* -------------------------
+   START BUTTON
+------------------------- */
+
+document
+  .getElementById("start")
+  .addEventListener("click", startGame);

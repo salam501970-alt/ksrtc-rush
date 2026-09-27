@@ -2,71 +2,117 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
   <title>Priyadarshini Bus Rush</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <div class="game">
+<div class="game">
 
-    <div class="topbar">
-      <div>🏆 Score: <span id="score">0</span></div>
-      <div>🪙 Coins: <span id="coins">0</span></div>
-      <div>📏 <span id="distance">0</span> m</div>
-    </div>
+  <!-- SCORE BAR -->
+  <div class="topbar">
+    <span>🏆 <b id="score">0</b></span>
+    <span>🪙 <b id="coins">0</b></span>
+    <span>📏 <b id="distance">0</b>m</span>
+  </div>
 
-    <div id="road">
 
-      <div class="cloud cloud1">☁️</div>
-      <div class="cloud cloud2">☁️</div>
+  <!-- GAME ROAD -->
+  <div id="road">
 
-      <div class="road-line line1"></div>
-      <div class="road-line line2"></div>
-      <div class="road-line line3"></div>
+    <!-- Kerala scenery -->
+    <div class="tree tree1">🌴</div>
+    <div class="tree tree2">🌴</div>
+    <div class="tree tree3">🌴</div>
+    <div class="tree tree4">🌴</div>
 
-      <div id="bus">
+    <div class="house house1">🏠</div>
+    <div class="house house2">🏠</div>
 
-        <div class="bus-front">
-          <div class="bus-light"></div>
-          <div class="bus-light"></div>
+
+    <!-- Road markings -->
+    <div class="road-line line1"></div>
+    <div class="road-line line2"></div>
+    <div class="road-line line3"></div>
+    <div class="road-line line4"></div>
+
+
+    <!-- ENEMY VEHICLE -->
+    <div id="obstacle">🚗</div>
+
+    <!-- COIN -->
+    <div id="coin">🪙</div>
+
+
+    <!-- PRIYADARSHINI BUS -->
+    <div id="bus">
+
+      <div class="bus-roof">
+        PRIYADARSHINI
+      </div>
+
+      <div class="bus-windows">
+
+        <div class="window">
+          👩
         </div>
 
-        <div class="bus-window">
-          👩 👩 👩
-          <br>
-          👩 👩 👩
+        <div class="window">
+          👩
         </div>
 
-        <div class="bus-name">
-          PRIYADARSHINI
+        <div class="window">
+          👩
         </div>
-
-        <div class="bus-wheel wheel1"></div>
-        <div class="bus-wheel wheel2"></div>
 
       </div>
 
-      <div id="obstacle">🚗</div>
+      <div class="bus-body-text">
+        KSRTC
+      </div>
 
-      <div id="coin">🪙</div>
+      <div class="bus-front">
 
-    </div>
+        <div class="headlight"></div>
 
-    <div class="controls">
-      <button id="left">⬅️</button>
-      <button id="start">START</button>
-      <button id="right">➡️</button>
-    </div>
+        <div class="headlight"></div>
 
-    <div id="message">
-      Tap START to play
+        <div class="bumper"></div>
+
+      </div>
+
+      <div class="wheel wheel-left"></div>
+      <div class="wheel wheel-right"></div>
+
     </div>
 
   </div>
 
-  <script src="game.js"></script>
+
+  <!-- CONTROLS -->
+  <div class="controls">
+
+    <button id="left">⬅️</button>
+
+    <button id="start">
+      START
+    </button>
+
+    <button id="right">➡️</button>
+
+  </div>
+
+
+  <div id="message">
+    Tap START to play
+  </div>
+
+</div>
+
+<script src="game.js"></script>
 
 </body>
 </html>

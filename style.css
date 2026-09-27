@@ -4,224 +4,453 @@
   padding: 0;
 }
 
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
 body {
   background: #111;
-  font-family: Arial, sans-serif;
   overflow: hidden;
+  font-family: Arial, sans-serif;
   touch-action: none;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
+
+/* 9:16 GAME */
 
 .game {
-  width: 100vw;
-  height: 100vh;
-  max-width: 500px;
-  margin: auto;
   position: relative;
-  background: #75c9ff;
+
+  width: min(100vw, 56.25vh);
+  height: min(177.78vw, 100vh);
+
+  aspect-ratio: 9 / 16;
+
+  overflow: hidden;
+
+  background: #70cfff;
 }
 
+
+/* SCORE */
+
 .topbar {
-  height: 55px;
+  height: 8%;
+
   background: #111;
   color: white;
+
   display: flex;
   align-items: center;
   justify-content: space-around;
-  font-size: 14px;
-  font-weight: bold;
-  z-index: 10;
+
+  font-size: clamp(11px, 3vw, 16px);
+
   position: relative;
+  z-index: 50;
 }
+
+
+/* ROAD */
 
 #road {
   position: absolute;
-  top: 55px;
-  bottom: 100px;
+
+  top: 8%;
+  bottom: 14%;
+
   width: 100%;
+
   overflow: hidden;
 
   background:
     linear-gradient(
       90deg,
-      #168a39 0%,
-      #168a39 12%,
+      #168b3c 0%,
+      #168b3c 12%,
       #555 12%,
       #555 88%,
-      #168a39 88%,
-      #168a39 100%
+      #168b3c 88%,
+      #168b3c 100%
     );
 }
 
+
+/* ROAD LINES */
+
 .road-line {
   position: absolute;
-  width: 8px;
-  height: 70px;
-  background: white;
+
+  width: 2%;
+  height: 12%;
+
   left: 50%;
+
   transform: translateX(-50%);
-  opacity: 0.8;
+
+  background: white;
 }
 
 .line1 {
-  top: 20px;
+  top: -10%;
 }
 
 .line2 {
-  top: 180px;
+  top: 25%;
 }
 
 .line3 {
-  top: 340px;
+  top: 60%;
 }
 
-.cloud {
+.line4 {
+  top: 95%;
+}
+
+
+/* KERALA TREES */
+
+.tree {
   position: absolute;
-  font-size: 40px;
+
+  font-size: clamp(28px, 10vw, 55px);
+
+  z-index: 1;
 }
 
-.cloud1 {
-  top: 10px;
-  left: 20px;
+.tree1 {
+  left: 1%;
+  top: 5%;
 }
 
-.cloud2 {
-  top: 60px;
-  right: 20px;
+.tree2 {
+  right: 0;
+  top: 20%;
 }
+
+.tree3 {
+  left: 0;
+  top: 55%;
+}
+
+.tree4 {
+  right: 1%;
+  top: 75%;
+}
+
+
+/* HOUSES */
+
+.house {
+  position: absolute;
+
+  font-size: clamp(25px, 8vw, 45px);
+
+  z-index: 1;
+}
+
+.house1 {
+  left: 0;
+  top: 38%;
+}
+
+.house2 {
+  right: 0;
+  top: 88%;
+}
+
+
+/* BUS */
 
 #bus {
   position: absolute;
-  width: 105px;
-  height: 185px;
-  bottom: 25px;
+
+  width: 24%;
+  height: 32%;
+
+  bottom: 5%;
   left: 50%;
+
   transform: translateX(-50%);
-  background: #f4c400;
-  border: 4px solid #222;
-  border-radius: 12px;
-  z-index: 5;
-}
 
-.bus-front {
-  position: absolute;
-  bottom: 5px;
-  width: 100%;
-  height: 35px;
-  background: #ddd;
-}
+  background: #f2c400;
 
-.bus-light {
-  width: 15px;
-  height: 15px;
-  background: #fff;
-  border: 2px solid #222;
-  border-radius: 50%;
-  position: absolute;
-  top: 8px;
-}
-
-.bus-light:first-child {
-  left: 8px;
-}
-
-.bus-light:last-child {
-  right: 8px;
-}
-
-.bus-window {
-  position: absolute;
-  top: 12px;
-  left: 8px;
-  right: 8px;
-  height: 80px;
-  background: #78cfff;
   border: 3px solid #222;
-  border-radius: 5px;
-  text-align: center;
-  padding-top: 8px;
-  font-size: 19px;
-  line-height: 30px;
+
+  border-radius: 12px;
+
+  z-index: 10;
+
+  box-shadow:
+    0 5px 0 #b18d00;
 }
 
-.bus-name {
+
+/* BUS ROOF */
+
+.bus-roof {
   position: absolute;
-  top: 98px;
+
+  top: 0;
+
   width: 100%;
+  height: 15%;
+
+  background: #d71920;
+
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: clamp(6px, 2vw, 11px);
+
+  font-weight: bold;
+
+  border-radius: 8px 8px 0 0;
+}
+
+
+/* WINDOWS */
+
+.bus-windows {
+  position: absolute;
+
+  top: 18%;
+
+  left: 7%;
+  right: 7%;
+
+  height: 42%;
+
+  background: #68c8ee;
+
+  border: 2px solid #222;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  overflow: hidden;
+}
+
+.window {
+  font-size: clamp(11px, 4vw, 21px);
+}
+
+
+/* TEXT */
+
+.bus-body-text {
+  position: absolute;
+
+  top: 64%;
+
+  width: 100%;
+
   text-align: center;
-  font-size: 11px;
+
+  font-size: clamp(5px, 1.8vw, 9px);
+
   font-weight: bold;
 }
 
-.bus-wheel {
+
+/* FRONT */
+
+.bus-front {
   position: absolute;
-  width: 22px;
-  height: 35px;
+
+  bottom: 3%;
+
+  left: 5%;
+
+  width: 90%;
+
+  height: 17%;
+
+  background: #eee;
+
+  border: 2px solid #222;
+}
+
+
+/* HEADLIGHTS */
+
+.headlight {
+  position: absolute;
+
+  bottom: 15%;
+
+  width: 16%;
+  height: 35%;
+
+  background: white;
+
+  border: 2px solid #222;
+
+  border-radius: 50%;
+}
+
+.headlight:first-child {
+  left: 8%;
+}
+
+.headlight:nth-child(2) {
+  right: 8%;
+}
+
+
+/* BUMPER */
+
+.bumper {
+  position: absolute;
+
+  bottom: -8%;
+
+  left: 10%;
+
+  width: 80%;
+
+  height: 15%;
+
+  background: #222;
+}
+
+
+/* WHEELS */
+
+.wheel {
+  position: absolute;
+
+  width: 20%;
+  height: 23%;
+
   background: #111;
-  border-radius: 8px;
-  bottom: 30px;
+
+  border-radius: 7px;
+
+  z-index: -1;
 }
 
-.wheel1 {
-  left: -10px;
+.wheel-left {
+  left: -10%;
+  bottom: 20%;
 }
 
-.wheel2 {
-  right: -10px;
+.wheel-right {
+  right: -10%;
+  bottom: 20%;
 }
+
+
+/* OBSTACLE */
 
 #obstacle {
   position: absolute;
-  top: -100px;
+
+  top: -15%;
+
   left: 50%;
+
   transform: translateX(-50%);
-  font-size: 55px;
-  z-index: 4;
+
+  font-size: clamp(32px, 12vw, 60px);
+
+  z-index: 8;
 }
+
+
+/* COIN */
 
 #coin {
   position: absolute;
-  top: -100px;
+
+  top: -10%;
+
   left: 30%;
-  font-size: 35px;
-  z-index: 4;
+
+  font-size: clamp(25px, 8vw, 40px);
+
+  z-index: 8;
 }
+
+
+/* CONTROLS */
 
 .controls {
   position: absolute;
+
   bottom: 0;
+
   width: 100%;
-  height: 100px;
+  height: 14%;
+
   background: #151515;
+
   display: flex;
+
   align-items: center;
+
   justify-content: space-around;
+
+  z-index: 50;
 }
 
 .controls button {
   border: none;
+
   border-radius: 15px;
-  font-size: 25px;
-  padding: 15px 25px;
+
+  padding: 3% 6%;
+
+  font-size: clamp(18px, 6vw, 30px);
+
   background: #333;
+
   color: white;
 }
 
 #start {
-  font-size: 17px;
   background: #e5b800;
+
   color: #111;
+
+  font-size: clamp(13px, 4vw, 18px);
+
   font-weight: bold;
 }
 
+
+/* MESSAGE */
+
 #message {
   position: absolute;
-  top: 60px;
+
+  top: 10%;
+
   left: 50%;
+
   transform: translateX(-50%);
+
   background: rgba(0,0,0,.7);
+
   color: white;
-  padding: 8px 15px;
+
+  padding: 2% 4%;
+
   border-radius: 20px;
-  z-index: 20;
-  font-size: 13px;
+
+  z-index: 100;
+
+  font-size: clamp(10px, 3vw, 14px);
+
+  white-space: nowrap;
 }
